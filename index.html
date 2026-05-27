@@ -18,11 +18,12 @@
         body {
             background: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
             color: #f8fafc;
-            min-height: 100vh;
+            /* Usando 100dvh para lidar melhor com as barras de navegação dos navegadores mobile */
+            min-height: 100dvh; 
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2.5rem 1.5rem;
+            padding: clamp(1.5rem, 4vw, 2.5rem) clamp(1rem, 3vw, 1.5rem);
             overflow-x: hidden;
             position: relative;
         }
@@ -51,7 +52,7 @@
             max-width: 1000px;
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            gap: clamp(1.5rem, 4vw, 2.5rem);
             z-index: 10;
         }
 
@@ -61,11 +62,12 @@
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
-            padding: 2.5rem;
+            padding: clamp(1.5rem, 5vw, 2.5rem);
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
+            width: 100%;
         }
 
         .goal-title {
@@ -82,7 +84,8 @@
         }
 
         .goal-amount {
-            font-size: 4.5rem;
+            /* Adapta o tamanho da fonte automaticamente do celular para o PC */
+            font-size: clamp(2.5rem, 8vw, 4.5rem);
             font-weight: 800;
             background: linear-gradient(90deg, #2dd4bf, #c084fc, #38bdf8);
             background-size: 200% auto;
@@ -92,6 +95,7 @@
             margin-bottom: 1rem;
             filter: drop-shadow(0 4px 15px rgba(45, 212, 191, 0.4));
             transition: transform 0.1s ease;
+            word-break: break-word; /* Evita que o valor vaze da tela se ficar muito grande */
         }
 
         @keyframes shineText { to { background-position: 200% center; } }
@@ -99,6 +103,7 @@
         .stats-row {
             display: flex;
             justify-content: space-around;
+            flex-wrap: wrap; /* Permite que os itens desçam de linha se faltar espaço */
             margin-bottom: 2rem;
             font-size: 1.2rem;
             gap: 1rem;
@@ -112,6 +117,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            flex: 1 1 auto;
+            justify-content: center;
         }
 
         .total-combined { color: #94a3b8; font-weight: 700; }
@@ -146,17 +153,19 @@
         /* Painéis Laterais */
         .split-view {
             display: flex;
-            gap: 2.5rem;
+            gap: clamp(1.5rem, 4vw, 2.5rem);
             justify-content: space-between;
+            width: 100%;
         }
 
         .person-card {
             flex: 1;
+            min-width: 0; /* Impede que os cards estiquem além da tela */
             background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
-            padding: 2.5rem;
+            padding: clamp(1.5rem, 4vw, 2.5rem);
             box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
@@ -176,7 +185,7 @@
         }
 
         .person-card h2 {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 4vw, 2rem);
             font-weight: 800;
             letter-spacing: 1px;
             text-transform: uppercase;
@@ -189,7 +198,13 @@
         .diogo-card .icon-bg { color: #06b6d4; }
         .levy-card .icon-bg { color: #c084fc; }
 
-        .person-total { font-size: 3rem; font-weight: 800; margin-bottom: 2rem; color: #ffffff; }
+        .person-total { 
+            font-size: clamp(2.2rem, 6vw, 3rem); 
+            font-weight: 800; 
+            margin-bottom: 2rem; 
+            color: #ffffff;
+            word-break: break-word; 
+        }
 
         .input-group { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
 
@@ -226,6 +241,7 @@
             justify-content: center;
             align-items: center;
             gap: 0.5rem;
+            width: 100%;
         }
 
         button:active { transform: scale(0.98); }
@@ -251,7 +267,7 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .history-list { list-style: none; max-height: 250px; overflow-y: auto; }
+        .history-list { list-style: none; max-height: 250px; overflow-y: auto; padding-right: 5px; }
 
         .history-item {
             display: flex;
@@ -264,23 +280,25 @@
             border-left: 4px solid transparent;
             font-size: 0.95rem;
             transition: all 0.2s ease;
+            gap: 0.5rem;
         }
 
         .diogo-card .history-item { border-left-color: #06b6d4; }
         .levy-card .history-item { border-left-color: #c084fc; }
 
-        .history-item-left { display: flex; flex-direction: column; }
+        .history-item-left { display: flex; flex-direction: column; flex: 1; min-width: 0; }
         .history-date { color: #64748b; font-size: 0.85rem; margin-top: 2px; }
         
-        .history-item-right { display: flex; align-items: center; gap: 1rem; }
-        .history-amount { font-weight: 700; font-size: 1.05rem; }
+        .history-item-right { display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0; }
+        .history-amount { font-weight: 700; font-size: clamp(0.95rem, 3vw, 1.05rem); }
 
         .btn-delete {
             background: transparent;
             border: none;
             color: #64748b;
             cursor: pointer;
-            padding: 4px;
+            padding: 8px;
+            width: auto;
             font-size: 1rem;
             box-shadow: none;
             transition: color 0.2s ease, transform 0.2s ease;
@@ -299,43 +317,12 @@
            AJUSTES PARA CELULAR (RESPONSIVIDADE)
            ========================================= */
         @media (max-width: 768px) {
-            body { 
-                padding: 1.5rem 1rem; /* Reduz padding lateral da tela */
-            }
-            .dashboard { 
-                gap: 1.5rem; 
-            }
-            .header-card, .person-card { 
-                padding: 1.5rem; /* Reduz espaço interno dos cartões */
-            }
-            .goal-amount { 
-                font-size: 2.5rem; /* Reduz o tamanho da fonte da meta */
-            }
-            .stats-row { 
-                flex-direction: column; /* Empilha Meta e Falta */
-                gap: 0.8rem; 
-                font-size: 1rem; 
-            }
-            .stat-box { 
-                width: 100%; 
-                justify-content: center; 
-            }
             .split-view { 
                 flex-direction: column; 
-                gap: 1.5rem; 
             }
-            .person-card h2 { 
-                font-size: 1.5rem; 
-            }
-            .person-total { 
-                font-size: 2.2rem; /* Reduz a fonte do total de cada um */
-                margin-bottom: 1.5rem; 
-            }
-            .history-amount { 
-                font-size: 0.95rem; /* Ajusta tamanho do dinheiro na lista */
-            }
-            .history-item-right {
-                gap: 0.5rem; /* Aproxima lixeira do valor */
+            .stats-row {
+                flex-direction: column;
+                font-size: 1rem;
             }
         }
     </style>
