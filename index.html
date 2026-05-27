@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossas Economias v4 - Diogo & Levy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top right, #1e1b4b, #0f172a 60%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2.5rem 1.5rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        body::before, body::after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(120px);
+            z-index: -1;
+            opacity: 0.3;
+            animation: floatGlow 8s ease-in-out infinite alternate;
+        }
+        body::before { top: 10%; left: 10%; background: #06b6d4; }
+        body::after { bottom: 10%; right: 10%; background: #d946ef; animation-delay: 4s; }
+
+        @keyframes floatGlow {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-30px) scale(1.1); }
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 1000px;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            z-index: 10;
+        }
+
+        /* Painel Superior */
+        .header-card {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+
+        .goal-title {
+            font-size: 1.1rem;
+            color: #2dd4bf;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .goal-amount {
+            font-size: 4.5rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #2dd4bf, #c084fc, #38bdf8);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shineText 6s linear infinite;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 4px 15px rgba(45, 212, 191, 0.4));
+            transition: transform 0.1s ease;
+        }
+
+        @keyframes shineText { to { background-position: 200% center; } }
+
+        .stats-row {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+            gap: 1rem;
+        }
+
+        .stat-box {
+            background: rgba(15, 23, 42, 0.5);
+            padding: 0.75rem 2rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .total-combined { color: #94a3b8; font-weight: 700; }
+        .remaining { color: #f43f5e; font-weight: 700; }
+
+        /* Barra de Progresso */
+        .progress-container {
+            width: 100%;
+            height: 16px;
+            background: #0f172a;
+            border-radius: 20px;
+            padding: 3px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #00f2fe 0%, #4facfe 30%, #2dd4bf 70%, #d946ef 100%);
+            background-size: 200% 100%;
+            animation: moveGradient 3s linear infinite;
+            box-shadow: 0 0 20px rgba(45, 212, 191, 0.6);
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        /* Painéis Laterais */
+        .split-view {
+            display: flex;
+            gap: 2.5rem;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) { .split-view { flex-direction: column; } }
+
+        .person-card {
+            flex: 1;
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            padding: 2.5rem;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .person-card:hover { transform: translateY(-5px); }
+        .diogo-card:hover { box-shadow: 0 10px 30px rgba(6, 182, 212, 0.15); }
+        .levy-card:hover { box-shadow: 0 10px 30px rgba(192, 132, 252, 0.15); }
+
+        .card-header-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .person-card h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .diogo-card h2 { color: #06b6d4; text-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
+        .levy-card h2 { color: #c084fc; text-shadow: 0 0 15px rgba(192, 132, 252, 0.3); }
+
+        .icon-bg { font-size: 1.8rem; opacity: 0.8; }
+        .diogo-card .icon-bg { color: #06b6d4; }
+        .levy-card .icon-bg { color: #c084fc; }
+
+        .person-total { font-size: 3rem; font-weight: 800; margin-bottom: 2rem; color: #ffffff; }
+
+        .input-group { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+
+        input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc;
+            padding: 14px 16px;
+            border-radius: 12px;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            background: rgba(15, 23, 42, 0.9);
+            border-color: #38bdf8;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; opacity: 0.7; }
+
+        button {
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .diogo-card button {
+            background: linear-gradient(135deg, #0284c7, #06b6d4);
+            box-shadow: 0 4px 20px rgba(6, 182, 212, 0.3);
+        }
+        .levy-card button {
+            background: linear-gradient(135deg, #7c3aed, #c084fc);
+            box-shadow: 0 4px 20px rgba(192, 132, 252, 0.3);
+        }
+
+        /* Lista de Histórico */
+        .history-container { display: flex; flex-direction: column; flex-grow: 1; }
+
+        .history-title {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .history-list { list-style: none; max-height: 250px; overflow-y: auto; }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 14px;
+            background: rgba(15, 23, 42, 0.3);
+            margin-bottom: 8px;
+            border-radius: 10px;
+            border-left: 4px solid transparent;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+        }
+
+        .diogo-card .history-item { border-left-color: #06b6d4; }
+        .levy-card .history-item { border-left-color: #c084fc; }
+
+        .history-item-left { display: flex; flex-direction: column; }
+        .history-date { color: #64748b; font-size: 0.85rem; margin-top: 2px; }
+        
+        .history-item-right { display: flex; align-items: center; gap: 1rem; }
+        .history-amount { font-weight: 700; font-size: 1.05rem; }
+
+        /* Botão de Excluir Registro */
+        .btn-delete {
+            background: transparent;
+            border: none;
+            color: #64748b;
+            cursor: pointer;
+            padding: 4px;
+            font-size: 1rem;
+            box-shadow: none;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .btn-delete:hover {
+            color: #f43f5e;
+            transform: scale(1.15);
+        }
+        .btn-delete:active { transform: scale(0.95); }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="dashboard">
+        <div class="header-card">
+            <div class="goal-title"><i class="fas fa-wallet"></i> Total Arrecadado</div>
+            <div class="goal-amount" id="combined-total">R$ 0,00</div>
+            
+            <div class="stats-row">
+                <div class="stat-box total-combined"><i class="fas fa-bullseye"></i> Meta: <span>R$ 180.000,00</span></div>
+                <div class="stat-box remaining"><i class="fas fa-piggy-bank"></i> Falta: <span id="remaining-total">R$ 180.000,00</span></div>
+            </div>
+
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+        </div>
+
+        <div class="split-view">
+            <div class="person-card diogo-card">
+                <div class="card-header-title">
+                    <h2>Diogo</h2>
+                    <i class="fas fa-coins icon-bg"></i>
+                </div>
+                <div class="person-total" id="diogo-total-display">R$ 0,00</div>
+                
+                <div class="input-group">
+                    <input type="number" id="diogo-amount" placeholder="Valor Guardado (R$)" step="0.01">
+                    <input type="date" id="diogo-date">
+                    <button id="btn-diogo"><i class="fas fa-plus"></i> Adicionar ao Fundo</button>
+                </div>
+
+                <div class="history-container">
+                    <div class="history-title">Depósitos de Diogo</div>
+                    <ul class="history-list" id="diogo-history"></ul>
+                </div>
+            </div>
+
+            <div class="person-card levy-card">
+                <div class="card-header-title">
+                    <h2>Levy</h2>
+                    <i class="fas fa-money-bill-trend-up icon-bg"></i>
+                </div>
+                <div class="person-total" id="levy-total-display">R$ 0,00</div>
+                
+                <div class="input-group">
+                    <input type="number" id="levy-amount" placeholder="Valor Guardado (R$)" step="0.01">
+                    <input type="date" id="levy-date">
+                    <button id="btn-levy"><i class="fas fa-plus"></i> Adicionar ao Fundo</button>
+                </div>
+
+                <div class="history-container">
+                    <div class="history-title">Depósitos de Levy</div>
+                    <ul class="history-list" id="levy-history"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <script type="module">
+        // 1. Importações exclusivas via CDN do Firebase v10
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // 2. Sua configuração exata do Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCLJSOZequOtlvFEupVXpYVvaOJ2CvdQMc",
+            authDomain: "economias-diogo-levy.firebaseapp.com",
+            projectId: "economias-diogo-levy",
+            storageBucket: "economias-diogo-levy.firebasestorage.app",
+            messagingSenderId: "976599434502",
+            appId: "1:976599434502:web:27a34119be809f7a1b0a87",
+            measurementId: "G-W4NXYHCPLQ"
+        };
+
+        // 3. Inicialização única do App e do Banco de Dados
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        
+        const GOAL = 180000.00;
+        let lastCombinedTotal = 0; 
+
+        // ==========================================
+        // Lógica da Aplicação
+        // ==========================================
+        const formatBRL = (value) => {
+            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
+        };
+
+        const formatLongDate = (dateString) => {
+            if(!dateString) return "Data não informada";
+            const date = new Date(dateString + 'T00:00:00'); 
+            return date.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' }).replace(/^\w/, (c) => c.toUpperCase());
+        };
+
+        function animateValue(elementId, start, end, duration) {
+            const obj = document.getElementById(elementId);
+            if (start === end) { obj.innerText = formatBRL(end); return; }
+            const range = end - start;
+            let current = start;
+            const increment = range / (duration / 16);
+            
+            const timer = setInterval(() => {
+                current += increment;
+                if ((increment > 0 && current >= end) || (increment < 0 && current <= end)) {
+                    clearInterval(timer);
+                    obj.innerText = formatBRL(end);
+                    obj.style.transform = "scale(1)";
+                } else {
+                    obj.innerText = formatBRL(current);
+                    obj.style.transform = "scale(1.02)";
+                }
+            }, 16);
+        }
+
+        // Listener Realtime do Firestore
+        const q = query(collection(db, "economias"), orderBy("dataInsercao", "desc"));
+        
+        onSnapshot(q, (snapshot) => {
+            let totalDiogo = 0;
+            let totalLevy = 0;
+            
+            document.getElementById('diogo-history').innerHTML = '';
+            document.getElementById('levy-history').innerHTML = '';
+
+            snapshot.forEach((docSnap) => {
+                const data = docSnap.data();
+                const id = docSnap.id; 
+                
+                if (data.quem === 'diogo') {
+                    totalDiogo += data.valor;
+                    renderItem('diogo', data, id);
+                } else if (data.quem === 'levy') {
+                    totalLevy += data.valor;
+                    renderItem('levy', data, id);
+                }
+            });
+
+            const combinedTotal = totalDiogo + totalLevy;
+            const remaining = GOAL - combinedTotal;
+            const progressPct = Math.min((combinedTotal / GOAL) * 100, 100);
+
+            animateValue('combined-total', lastCombinedTotal, combinedTotal, 1200);
+            lastCombinedTotal = combinedTotal;
+
+            document.getElementById('diogo-total-display').innerText = formatBRL(totalDiogo);
+            document.getElementById('levy-total-display').innerText = formatBRL(totalLevy);
+            document.getElementById('remaining-total').innerText = formatBRL(remaining > 0 ? remaining : 0);
+            document.getElementById('progress-bar').style.width = progressPct + '%';
+        });
+
+        function renderItem(person, data, id) {
+            const historyList = document.getElementById(`${person}-history`);
+            const li = document.createElement('li');
+            li.className = 'history-item';
+            
+            const displayDate = formatLongDate(data.dataReferencia);
+            const exactDay = new Date(data.dataReferencia + 'T00:00:00').toLocaleDateString('pt-BR');
+
+            li.innerHTML = `
+                <div class="history-item-left">
+                    <div>${displayDate}</div>
+                    <div class="history-date">Dia ${exactDay}</div>
+                </div>
+                <div class="history-item-right">
+                    <span class="history-amount">${formatBRL(data.valor)}</span>
+                    <button class="btn-delete" onclick="deletarEntrada('${id}')" title="Excluir Registro">
+                        <i class="fas fa-trash-can"></i>
+                    </button>
+                </div>
+            `;
+            historyList.appendChild(li);
+        }
+
+        async function salvarEntrada(person) {
+            const amountInput = document.getElementById(`${person}-amount`);
+            const dateInput = document.getElementById(`${person}-date`);
+            
+            const valor = parseFloat(amountInput.value);
+            const dataReferencia = dateInput.value;
+
+            if (isNaN(valor) || valor <= 0) { alert("Por favor, insira um valor válido."); return; }
+            if (!dataReferencia) { alert("Por favor, selecione uma data."); return; }
+
+            try {
+                await addDoc(collection(db, "economias"), {
+                    quem: person,
+                    valor: valor,
+                    dataReferencia: dataReferencia,
+                    dataInsercao: new Date().toISOString()
+                });
+                amountInput.value = '';
+            } catch (error) {
+                console.error("Erro ao salvar: ", error);
+            }
+        }
+
+        window.deletarEntrada = async function(id) {
+            if (confirm("Tem certeza que deseja apagar esse registro de valor?")) {
+                try {
+                    await deleteDoc(doc(db, "economias", id));
+                } catch (error) {
+                    console.error("Erro ao deletar documento: ", error);
+                    alert("Erro ao tentar remover o registro.");
+                }
+            }
+        }
+
+        document.getElementById('btn-diogo').addEventListener('click', () => salvarEntrada('diogo'));
+        document.getElementById('btn-levy').addEventListener('click', () => salvarEntrada('levy'));
+
+        const hoje = new Date().toISOString().split('T')[0];
+        document.getElementById('diogo-date').value = hoje;
+        document.getElementById('levy-date').value = hoje;
+    </script></body>
+</html>
