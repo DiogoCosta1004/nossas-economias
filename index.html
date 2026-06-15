@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nossas Economias v5 - Diogo & Levy</title>
+    <title>Nossas Economias v6 - Diogo & Levy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
@@ -28,7 +28,6 @@
             position: relative;
         }
 
-        /* Efeitos de Fundo */
         body::before, body::after {
             content: '';
             position: fixed;
@@ -57,7 +56,6 @@
             z-index: 10;
         }
 
-        /* Controle de Abas (Tabs) */
         .tabs-container {
             display: flex;
             background: rgba(15, 23, 42, 0.6);
@@ -92,16 +90,7 @@
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
-        .tab-btn i { font-size: 1.2rem; }
-
-        /* Conteúdo das Abas */
-        .tab-content {
-            display: none;
-            flex-direction: column;
-            gap: 1.5rem;
-            animation: fadeIn 0.4s ease;
-        }
-
+        .tab-content { display: none; flex-direction: column; gap: 1.5rem; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: flex; }
 
         @keyframes fadeIn {
@@ -109,18 +98,15 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Painel Superior (Resumo) */
         .header-card {
             background: rgba(30, 41, 59, 0.7);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-radius: 24px;
             padding: clamp(1.5rem, 5vw, 2.5rem);
             text-align: center;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
-            width: 100%;
         }
 
         .goal-title {
@@ -146,7 +132,6 @@
             animation: shineText 6s linear infinite;
             margin-bottom: 1.5rem;
             filter: drop-shadow(0 4px 15px rgba(45, 212, 191, 0.4));
-            transition: transform 0.1s ease;
             word-break: break-word;
         }
 
@@ -177,7 +162,6 @@
         .total-combined { color: #94a3b8; font-weight: 700; font-size: 0.95rem; }
         .remaining { color: #f43f5e; font-weight: 700; font-size: 0.95rem; }
 
-        /* Barra de Progresso */
         .progress-container {
             width: 100%;
             height: 14px;
@@ -198,46 +182,20 @@
             transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        @keyframes moveGradient {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
+        @keyframes moveGradient { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-        /* Painéis Individuais */
-        .split-view {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: space-between;
-            width: 100%;
-        }
+        .split-view { display: flex; gap: 1.5rem; justify-content: space-between; width: 100%; }
 
         .person-card {
-            flex: 1;
-            min-width: 0;
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(16px);
-            border-radius: 24px;
-            padding: clamp(1.2rem, 4vw, 2rem);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            display: flex;
-            flex-direction: column;
+            flex: 1; min-width: 0;
+            background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px);
+            border-radius: 24px; padding: clamp(1.2rem, 4vw, 2rem);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex; flex-direction: column;
         }
 
-        .card-header-title {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .person-card h2 {
-            font-size: clamp(1.2rem, 4vw, 1.8rem);
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-        }
-
+        .card-header-title { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+        .person-card h2 { font-size: clamp(1.2rem, 4vw, 1.8rem); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
         .diogo-card h2 { color: #06b6d4; text-shadow: 0 0 15px rgba(6, 182, 212, 0.3); }
         .levy-card h2 { color: #c084fc; text-shadow: 0 0 15px rgba(192, 132, 252, 0.3); }
 
@@ -245,123 +203,75 @@
         .diogo-card .icon-bg { color: #06b6d4; }
         .levy-card .icon-bg { color: #c084fc; }
 
-        .person-total { 
-            font-size: clamp(1.8rem, 5vw, 2.5rem); 
-            font-weight: 800; 
-            margin-bottom: 1.5rem; 
-            color: #ffffff;
-            word-break: break-word; 
-        }
+        .person-total { font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 800; margin-bottom: 1.5rem; color: #ffffff; word-break: break-word; }
 
         .input-group { display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 1.5rem; }
-
         input {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #f8fafc;
-            padding: 14px 16px;
-            border-radius: 12px;
-            font-size: 1rem;
-            outline: none;
-            transition: all 0.3s ease;
-            appearance: none; /* Melhora em iOS */
+            width: 100%; background: rgba(15, 23, 42, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #f8fafc; padding: 14px 16px; border-radius: 12px; font-size: 1rem; outline: none; appearance: none;
         }
-
-        input:focus {
-            background: rgba(15, 23, 42, 0.9);
-            border-color: #38bdf8;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
-        }
-
+        input:focus { background: rgba(15, 23, 42, 0.9); border-color: #38bdf8; box-shadow: 0 0 12px rgba(56, 189, 248, 0.2); }
         input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; opacity: 0.7; }
 
         button.btn-add {
-            padding: 14px;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 700;
-            color: white;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 0.5rem;
-            width: 100%;
+            padding: 14px; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700;
+            color: white; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 0.5rem; width: 100%;
         }
-
         button.btn-add:active { transform: scale(0.96); }
+        .diogo-card button.btn-add { background: linear-gradient(135deg, #0284c7, #06b6d4); box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); }
+        .levy-card button.btn-add { background: linear-gradient(135deg, #7c3aed, #c084fc); box-shadow: 0 4px 15px rgba(192, 132, 252, 0.3); }
 
-        .diogo-card button.btn-add {
-            background: linear-gradient(135deg, #0284c7, #06b6d4);
-            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
-        }
-        .levy-card button.btn-add {
-            background: linear-gradient(135deg, #7c3aed, #c084fc);
-            box-shadow: 0 4px 15px rgba(192, 132, 252, 0.3);
-        }
-
-        /* Lista de Histórico */
         .history-container { display: flex; flex-direction: column; flex-grow: 1; }
-
-        .history-title {
-            font-size: 0.95rem;
-            color: #94a3b8;
-            font-weight: 700;
-            margin-bottom: 0.8rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
+        .history-title { font-size: 0.95rem; color: #94a3b8; font-weight: 700; margin-bottom: 0.8rem; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
         .history-list { list-style: none; max-height: 200px; overflow-y: auto; padding-right: 5px; }
-
         .history-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 10px 12px;
-            background: rgba(15, 23, 42, 0.4);
-            margin-bottom: 8px;
-            border-radius: 10px;
-            border-left: 3px solid transparent;
-            font-size: 0.9rem;
-            gap: 0.5rem;
+            display: flex; justify-content: space-between; align-items: center; padding: 10px 12px;
+            background: rgba(15, 23, 42, 0.4); margin-bottom: 8px; border-radius: 10px; border-left: 3px solid transparent; font-size: 0.9rem; gap: 0.5rem;
         }
-
         .diogo-card .history-item { border-left-color: #06b6d4; }
         .levy-card .history-item { border-left-color: #c084fc; }
 
         .history-item-left { display: flex; flex-direction: column; flex: 1; min-width: 0; }
         .history-date { color: #64748b; font-size: 0.8rem; margin-top: 2px; }
-        
         .history-item-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
         .history-amount { font-weight: 700; font-size: 0.95rem; }
 
-        .btn-delete {
-            background: rgba(244, 63, 94, 0.1);
-            border: none;
-            color: #f43f5e;
-            cursor: pointer;
-            padding: 8px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
+        .btn-delete { background: rgba(244, 63, 94, 0.1); border: none; color: #f43f5e; cursor: pointer; padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
         .btn-delete:active { transform: scale(0.9); background: rgba(244, 63, 94, 0.3); }
 
         ::-webkit-scrollbar { width: 4px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.1); }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 10px; }
 
-        /* Ajustes Mobile Severos */
         @media (max-width: 768px) {
             .split-view { flex-direction: column; }
-            .stat-box { flex: 1 1 100%; } /* Ocupa linha inteira no mobile */
+            .stat-box { flex: 1 1 100%; }
         }
+
+        /* Classes Novas para o Modo Mistério */
+        .mystery-state {
+            color: #cbd5e1;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            letter-spacing: 5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            animation: pulseMystery 2s infinite alternate;
+        }
+        @keyframes pulseMystery { from { opacity: 0.6; } to { opacity: 1; } }
+
+        .milestone-badge {
+            background: rgba(217, 70, 239, 0.15);
+            color: #e879f9;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            font-weight: 800;
+            margin-top: 10px;
+            display: inline-block;
+            border: 1px solid rgba(217, 70, 239, 0.4);
+            box-shadow: 0 0 15px rgba(217, 70, 239, 0.2);
+        }
+        
+        .secret-value { color: #94a3b8; font-style: italic; }
     </style>
 </head>
 <body>
@@ -394,18 +304,13 @@
 
             <div class="split-view">
                 <div class="person-card diogo-card">
-                    <div class="card-header-title">
-                        <h2>Diogo</h2>
-                        <i class="fas fa-coins icon-bg"></i>
-                    </div>
+                    <div class="card-header-title"><h2>Diogo</h2><i class="fas fa-coins icon-bg"></i></div>
                     <div class="person-total" id="inv-diogo-total-display">R$ 0,00</div>
-                    
                     <div class="input-group">
                         <input type="number" id="inv-diogo-amount" placeholder="Valor do Aporte (R$)" step="0.01">
                         <input type="date" id="inv-diogo-date">
                         <button class="btn-add" onclick="salvarEntrada('diogo', 'investimento')"><i class="fas fa-plus"></i> Adicionar Aporte</button>
                     </div>
-
                     <div class="history-container">
                         <div class="history-title">Histórico de Aportes</div>
                         <ul class="history-list" id="inv-diogo-history"></ul>
@@ -413,18 +318,13 @@
                 </div>
 
                 <div class="person-card levy-card">
-                    <div class="card-header-title">
-                        <h2>Levy</h2>
-                        <i class="fas fa-money-bill-trend-up icon-bg"></i>
-                    </div>
+                    <div class="card-header-title"><h2>Levy</h2><i class="fas fa-money-bill-trend-up icon-bg"></i></div>
                     <div class="person-total" id="inv-levy-total-display">R$ 0,00</div>
-                    
                     <div class="input-group">
                         <input type="number" id="inv-levy-amount" placeholder="Valor do Aporte (R$)" step="0.01">
                         <input type="date" id="inv-levy-date">
                         <button class="btn-add" onclick="salvarEntrada('levy', 'investimento')"><i class="fas fa-plus"></i> Adicionar Aporte</button>
                     </div>
-
                     <div class="history-container">
                         <div class="history-title">Histórico de Aportes</div>
                         <ul class="history-list" id="inv-levy-history"></ul>
@@ -435,12 +335,17 @@
 
         <div id="tab-cofre" class="tab-content">
             <div class="header-card">
-                <div class="goal-title"><i class="fas fa-piggy-bank"></i> Cofre de Madeirite</div>
-                <div class="goal-amount" id="cofre-combined-total">R$ 0,00</div>
+                <div class="goal-title"><i class="fas fa-mask"></i> Cofre de Madeirite Secreto</div>
                 
-                <div class="stats-row">
+                <div class="goal-amount" id="cofre-combined-total">
+                    <span class="mystery-state">???</span>
+                </div>
+                
+                <div id="cofre-milestone" class="milestone-badge">Guardando em silêncio... 🤫</div>
+                
+                <div class="stats-row" style="margin-top: 1.5rem;">
                     <div class="stat-box total-combined"><i class="fas fa-bullseye"></i> Meta: <span>R$ 10.000,00</span></div>
-                    <div class="stat-box remaining"><i class="fas fa-pen-nib"></i> Falta Riscar: <span id="cofre-remaining-total">R$ 10.000,00</span></div>
+                    <div class="stat-box remaining"><i class="fas fa-lock"></i> Falta: <span id="cofre-remaining-total">Surpresa!</span></div>
                 </div>
 
                 <div class="progress-container">
@@ -450,16 +355,13 @@
 
             <div class="split-view">
                 <div class="person-card diogo-card">
-                    <div class="card-header-title">
-                        <h2>Diogo</h2>
-                        <i class="fas fa-coins icon-bg"></i>
-                    </div>
-                    <div class="person-total" id="cofre-diogo-total-display">R$ 0,00</div>
+                    <div class="card-header-title"><h2>Diogo</h2><i class="fas fa-coins icon-bg"></i></div>
+                    <div class="person-total" id="cofre-diogo-total-display">R$ ???</div>
                     
                     <div class="input-group">
-                        <input type="number" id="cofre-diogo-amount" placeholder="Valor Guardado (R$)" step="0.01">
+                        <input type="number" id="cofre-diogo-amount" placeholder="Valor Escondido (R$)" step="0.01">
                         <input type="date" id="cofre-diogo-date">
-                        <button class="btn-add" onclick="salvarEntrada('diogo', 'cofre')"><i class="fas fa-plus"></i> Inserir no Cofre</button>
+                        <button class="btn-add" onclick="salvarEntrada('diogo', 'cofre')"><i class="fas fa-user-secret"></i> Inserir no Escuro</button>
                     </div>
 
                     <div class="history-container">
@@ -469,16 +371,13 @@
                 </div>
 
                 <div class="person-card levy-card">
-                    <div class="card-header-title">
-                        <h2>Levy</h2>
-                        <i class="fas fa-money-bill-trend-up icon-bg"></i>
-                    </div>
-                    <div class="person-total" id="cofre-levy-total-display">R$ 0,00</div>
+                    <div class="card-header-title"><h2>Levy</h2><i class="fas fa-money-bill-trend-up icon-bg"></i></div>
+                    <div class="person-total" id="cofre-levy-total-display">R$ ???</div>
                     
                     <div class="input-group">
-                        <input type="number" id="cofre-levy-amount" placeholder="Valor Guardado (R$)" step="0.01">
+                        <input type="number" id="cofre-levy-amount" placeholder="Valor Escondido (R$)" step="0.01">
                         <input type="date" id="cofre-levy-date">
-                        <button class="btn-add" onclick="salvarEntrada('levy', 'cofre')"><i class="fas fa-plus"></i> Inserir no Cofre</button>
+                        <button class="btn-add" onclick="salvarEntrada('levy', 'cofre')"><i class="fas fa-user-secret"></i> Inserir no Escuro</button>
                     </div>
 
                     <div class="history-container">
@@ -510,22 +409,16 @@
         
         const GOAL_INVESTIMENTO = 180000.00;
         const GOAL_COFRE = 10000.00;
-        
         let lastInvCombined = 0; 
-        let lastCofreCombined = 0; 
 
-        // Função Global para trocar as abas (Tabs)
         window.switchTab = function(tabName) {
             document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            
             document.getElementById(`tab-${tabName}`).classList.add('active');
             event.currentTarget.classList.add('active');
         };
 
-        const formatBRL = (value) => {
-            return new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
-        };
+        const formatBRL = (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(value);
 
         const formatLongDate = (dateString) => {
             if(!dateString) return "Data não informada";
@@ -557,62 +450,90 @@
         const q = query(collection(db, "economias"), orderBy("dataInsercao", "desc"));
         
         onSnapshot(q, (snapshot) => {
-            let totals = {
-                investimento: { diogo: 0, levy: 0 },
-                cofre: { diogo: 0, levy: 0 }
-            };
-            
-            // Limpa as listas
+            let totals = { investimento: { diogo: 0, levy: 0 }, cofre: { diogo: 0, levy: 0 } };
+            let allDocs = []; // Array temporário para guardar tudo e renderizar depois
+
+            // Limpa as listas visuais
             ['inv', 'cofre'].forEach(prefix => {
                 document.getElementById(`${prefix}-diogo-history`).innerHTML = '';
                 document.getElementById(`${prefix}-levy-history`).innerHTML = '';
             });
 
+            // PASSO 1: Fazer a conta de tudo invisivelmente primeiro
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
-                const id = docSnap.id; 
-                
-                // Se o registro for antigo e não tiver 'tipo', assume 'investimento'
                 const tipoData = data.tipo || 'investimento'; 
-                const prefix = tipoData === 'investimento' ? 'inv' : 'cofre';
-
-                if (data.quem === 'diogo') {
-                    totals[tipoData].diogo += data.valor;
-                    renderItem(prefix, 'diogo', data, id);
-                } else if (data.quem === 'levy') {
-                    totals[tipoData].levy += data.valor;
-                    renderItem(prefix, 'levy', data, id);
-                }
+                
+                if (data.quem === 'diogo') totals[tipoData].diogo += data.valor;
+                if (data.quem === 'levy') totals[tipoData].levy += data.valor;
+                
+                allDocs.push({ id: docSnap.id, data: data, tipo: tipoData });
             });
 
-            // Atualiza Investimentos
+            /* === LOGICA DE ATUALIZAÇÃO: INVESTIMENTO (TUDO VISÍVEL) === */
             const invCombined = totals.investimento.diogo + totals.investimento.levy;
             const invRemaining = GOAL_INVESTIMENTO - invCombined;
-            const invProgressPct = Math.min((invCombined / GOAL_INVESTIMENTO) * 100, 100);
-
             animateValue('inv-combined-total', lastInvCombined, invCombined, 1200);
             lastInvCombined = invCombined;
-
+            
             document.getElementById('inv-diogo-total-display').innerText = formatBRL(totals.investimento.diogo);
             document.getElementById('inv-levy-total-display').innerText = formatBRL(totals.investimento.levy);
             document.getElementById('inv-remaining-total').innerText = formatBRL(invRemaining > 0 ? invRemaining : 0);
-            document.getElementById('inv-progress-bar').style.width = invProgressPct + '%';
+            document.getElementById('inv-progress-bar').style.width = Math.min((invCombined / GOAL_INVESTIMENTO) * 100, 100) + '%';
 
-            // Atualiza Cofre
+
+            /* === LOGICA DE ATUALIZAÇÃO: COFRE (MISTÉRIO!) === */
             const cofreCombined = totals.cofre.diogo + totals.cofre.levy;
-            const cofreRemaining = GOAL_COFRE - cofreCombined;
-            const cofreProgressPct = Math.min((cofreCombined / GOAL_COFRE) * 100, 100);
+            const cofrePct = Math.min((cofreCombined / GOAL_COFRE) * 100, 100);
+            const isCofreComplete = cofreCombined >= GOAL_COFRE;
 
-            animateValue('cofre-combined-total', lastCofreCombined, cofreCombined, 1200);
-            lastCofreCombined = cofreCombined;
+            const cofreCombinedEl = document.getElementById('cofre-combined-total');
+            const cofreRemainingEl = document.getElementById('cofre-remaining-total');
+            const cofreMilestoneEl = document.getElementById('cofre-milestone');
 
-            document.getElementById('cofre-diogo-total-display').innerText = formatBRL(totals.cofre.diogo);
-            document.getElementById('cofre-levy-total-display').innerText = formatBRL(totals.cofre.levy);
-            document.getElementById('cofre-remaining-total').innerText = formatBRL(cofreRemaining > 0 ? cofreRemaining : 0);
-            document.getElementById('cofre-progress-bar').style.width = cofreProgressPct + '%';
+            // Atualiza a barra de progresso (ela enche sem mostrar números)
+            document.getElementById('cofre-progress-bar').style.width = cofrePct + '%';
+
+            if (isCofreComplete) {
+                // REVELAÇÃO TOTAL! Quebraram a meta dos 10.000!
+                cofreCombinedEl.innerHTML = formatBRL(cofreCombined);
+                cofreCombinedEl.className = "goal-amount"; // Volta a cor brilhante normal
+                document.getElementById('cofre-diogo-total-display').innerText = formatBRL(totals.cofre.diogo);
+                document.getElementById('cofre-levy-total-display').innerText = formatBRL(totals.cofre.levy);
+                cofreRemainingEl.innerText = "CONCLUÍDO!";
+                cofreMilestoneEl.innerHTML = "🎉 DESAFIO CONCLUÍDO! PODE ABRIR A CAIXA! 🎉";
+                cofreMilestoneEl.style.background = "rgba(45, 212, 191, 0.2)";
+                cofreMilestoneEl.style.color = "#2dd4bf";
+            } else {
+                // ESCONDIDO! Protege os números
+                cofreCombinedEl.innerHTML = '<span class="mystery-state">???</span>';
+                document.getElementById('cofre-diogo-total-display').innerText = "R$ ???";
+                document.getElementById('cofre-levy-total-display').innerText = "R$ ???";
+                cofreRemainingEl.innerText = "Surpresa!";
+
+                // Dicas visuais baseadas no total real
+                if (cofreCombined >= 9999) {
+                    cofreMilestoneEl.innerHTML = "😱 POR UM FIO! Falta só uma raspinha!";
+                } else if (cofreCombined >= 5000) {
+                    cofreMilestoneEl.innerHTML = "🔥 METADE DO CAMINHO! Passamos de 5k!";
+                } else if (cofreCombined >= 1000) {
+                    cofreMilestoneEl.innerHTML = "👀 PRIMEIRO MIL! Já passamos de milzão!";
+                } else {
+                    cofreMilestoneEl.innerHTML = "🤫 O mistério começou... guardando no escuro!";
+                }
+            }
+
+            // PASSO 2: Renderizar as listas (com valores abertos ou censurados)
+            allDocs.forEach(item => {
+                const prefix = item.tipo === 'investimento' ? 'inv' : 'cofre';
+                
+                // Se for cofre E a meta NÃO bateu, esconde o valor da lista
+                const hideValue = (item.tipo === 'cofre' && !isCofreComplete);
+                renderItem(prefix, item.data.quem, item.data, item.id, hideValue);
+            });
         });
 
-        function renderItem(prefix, person, data, id) {
+        function renderItem(prefix, person, data, id, hideValue) {
             const historyList = document.getElementById(`${prefix}-${person}-history`);
             const li = document.createElement('li');
             li.className = 'history-item';
@@ -620,13 +541,18 @@
             const displayDate = formatLongDate(data.dataReferencia);
             const exactDay = new Date(data.dataReferencia + 'T00:00:00').toLocaleDateString('pt-BR');
 
+            // Máscara do valor caso seja para esconder
+            const valueDisplay = hideValue 
+                ? `<span class="secret-value"><i class="fas fa-lock" style="font-size:0.7rem;"></i> Segredo</span>` 
+                : `<span class="history-amount">${formatBRL(data.valor)}</span>`;
+
             li.innerHTML = `
                 <div class="history-item-left">
                     <div>${displayDate}</div>
                     <div class="history-date">Dia ${exactDay}</div>
                 </div>
                 <div class="history-item-right">
-                    <span class="history-amount">${formatBRL(data.valor)}</span>
+                    ${valueDisplay}
                     <button class="btn-delete" onclick="deletarEntrada('${id}')" title="Excluir Registro">
                         <i class="fas fa-trash-can"></i>
                     </button>
@@ -649,12 +575,16 @@
             try {
                 await addDoc(collection(db, "economias"), {
                     quem: person,
-                    tipo: tipo, // Salva se é investimento ou cofre
+                    tipo: tipo,
                     valor: valor,
                     dataReferencia: dataReferencia,
                     dataInsercao: new Date().toISOString()
                 });
                 amountInput.value = '';
+                
+                if(tipo === 'cofre') {
+                    alert("Depósito inserido no mistério! 🤫");
+                }
             } catch (error) {
                 console.error("Erro ao salvar: ", error);
             }
@@ -671,7 +601,6 @@
             }
         }
 
-        // Setar datas iniciais para hoje
         const hoje = new Date().toISOString().split('T')[0];
         document.getElementById('inv-diogo-date').value = hoje;
         document.getElementById('inv-levy-date').value = hoje;
