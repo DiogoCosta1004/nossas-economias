@@ -256,7 +256,7 @@
             .stat-box { flex: 1 1 100%; }
         }
 
-        /* Classes Novas para o Modo Mistério do Cofre */
+        /* Classes para o Cofre */
         .mystery-state {
             color: #cbd5e1;
             font-size: clamp(2rem, 6vw, 3.5rem);
@@ -278,10 +278,9 @@
             border: 1px solid rgba(217, 70, 239, 0.4);
             box-shadow: 0 0 15px rgba(217, 70, 239, 0.2);
         }
-        
         .secret-value { color: #94a3b8; font-style: italic; }
 
-        /* Estilos Novos para o agrupamento mensal nos Investimentos */
+        /* Classes para o agrupamento mensal nos Investimentos */
         .month-divider {
             background: rgba(56, 189, 248, 0.1);
             color: #38bdf8;
@@ -474,13 +473,14 @@
             }, 16);
         }
 
-        const q = query(collection(db, "economias"), orderBy("dataReferencia", "desc"));
+        // RETORNADO PARA A SUA ORDENAÇÃO ORIGINAL PARA NÃO SUMIR DADOS
+        const q = query(collection(db, "economias"), orderBy("dataInsercao", "desc"));
         
         onSnapshot(q, (snapshot) => {
             let totals = { investimento: { diogo: 0, levy: 0 }, cofre: { diogo: 0, levy: 0 } };
             let allDocs = []; 
 
-            // PASSO 1: Fazer a conta de tudo invisivelmente primeiro
+            // PASSO 1: Somar tudo 
             snapshot.forEach((docSnap) => {
                 const data = docSnap.data();
                 const tipoData = data.tipo || 'investimento'; 
@@ -540,7 +540,15 @@
                 }
             }
 
-            /* === PASSO 2: RENDERIZAR AS LISTAS COM ALTA PERFORMANCE === */
+            /* === ORDENAR LOCALMENTE PARA AGRUPAR MESES === */
+            // Isso garante que os meses fiquem em ordem sem mudar o índice principal do Firebase
+            const sortedDocs = [...allDocs].sort((a, b) => {
+                const dateA = a.data.dataReferencia || a.data.dataInsercao || '';
+                const dateB = b.data.dataReferencia || b.data.dataInsercao || '';
+                return dateB.localeCompare(dateA);
+            });
+
+            /* === PASSO 2: RENDERIZAR AS LISTAS === */
             const invDiogoHTML = [];
             const invLevyHTML = [];
             let currentMonthDiogo = '';
@@ -551,21 +559,24 @@
             document.getElementById('cofre-diogo-history').innerHTML = '';
             document.getElementById('cofre-levy-history').innerHTML = '';
 
-            allDocs.forEach(item => {
+            sortedDocs.forEach(item => {
                 const data = item.data;
                 const id = item.id;
 
-                // Lógica mantida para o cofre (Renderiza um por um devido à simplicidade e modo sigiloso)
                 if (item.tipo === 'cofre') {
                     const hideValue = (!isCofreComplete);
                     renderItemCofre('cofre', data.quem, data, id, hideValue);
                     return;
                 }
 
-                // Lógica de Agrupamento Mensal e Subtotal para os Investimentos
-                const dataRef = new Date(data.dataReferencia + 'T00:00:00');
-                const monthYear = dataRef.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
-                const exactDay = dataRef.toLocaleDateString('pt-BR');
+                // Lógica de Agrupamento Mensal
+                // Fallback caso algum dado muito antigo não tenha dataReferencia
+                const rawDate = data.dataReferencia || data.dataInsercao.split('T')[0];
+                const dataRef = new Date(rawDate + 'T00:00:00');
+                
+                // Trata datas inválidas se houver
+                const monthYear = isNaN(dataRef.getTime()) ? "Data Desconhecida" : dataRef.toLocaleDateString('pt-BR', { month: 'long', year: 'numeric' });
+                const exactDay = isNaN(dataRef.getTime()) ? "--" : dataRef.toLocaleDateString('pt-BR');
                 
                 const htmlItem = `
                     <li class="history-item">
@@ -589,7 +600,6 @@
                     }
                     subtotalDiogo += data.valor;
                     invDiogoHTML.push(htmlItem);
-                    // Atualiza dinamicamente o subtotal do mês no divisor adicionado
                     for (let i = invDiogoHTML.length - 1; i >= 0; i--) {
                         if (invDiogoHTML[i].includes('month-divider')) {
                             invDiogoHTML[i] = `<div class="month-divider"><span>${monthYear}</span> <span class="month-subtotal">Total: ${formatBRL(subtotalDiogo)}</span></div>`;
@@ -604,7 +614,6 @@
                     }
                     subtotalLevy += data.valor;
                     invLevyHTML.push(htmlItem);
-                    // Atualiza dinamicamente o subtotal do mês no divisor adicionado
                     for (let i = invLevyHTML.length - 1; i >= 0; i--) {
                         if (invLevyHTML[i].includes('month-divider')) {
                             invLevyHTML[i] = `<div class="month-divider"><span>${monthYear}</span> <span class="month-subtotal">Total: ${formatBRL(subtotalLevy)}</span></div>`;
@@ -614,19 +623,26 @@
                 }
             });
 
-            // Injeta as strings completas de uma vez no DOM para evitar lags no celular
             document.getElementById('inv-diogo-history').innerHTML = invDiogoHTML.join('');
             document.getElementById('inv-levy-history').innerHTML = invLevyHTML.join('');
         });
 
-        // Função isolada apenas para desenhar as linhas do Cofre Secreto
         function renderItemCofre(prefix, person, data, id, hideValue) {
             const historyList = document.getElementById(`${prefix}-${person}-history`);
             const li = document.createElement('li');
             li.className = 'history-item';
             
-            const displayDate = formatLongDate(data.dataReferencia);
-            const exactDay = new Date(data.dataReferencia + 'T00:00:00').toLocaleDateString('pt-BR');
+            const rawDate = data.dataReferencia || (data.dataInsercao ? data.dataInsercao.split('T')[0] : '');
+            let displayDate = "Data Desconhecida";
+            let exactDay = "--";
+
+            if(rawDate) {
+                 const d = new Date(rawDate + 'T00:00:00');
+                 if(!isNaN(d.getTime())) {
+                     displayDate = d.toLocaleDateString('pt-BR', { month: 'short', year: 'numeric' }).replace(/^\w/, (c) => c.toUpperCase());
+                     exactDay = d.toLocaleDateString('pt-BR');
+                 }
+            }
 
             const valueDisplay = hideValue 
                 ? `<span class="secret-value"><i class="fas fa-lock" style="font-size:0.7rem;"></i> Segredo</span>` 
